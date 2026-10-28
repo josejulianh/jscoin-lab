@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JScoin Lab — Laboratorio Interactivo</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --card: #1a2332;
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --success: #10b981;
+      --danger: #ef4444;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --border: #334155;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+    header h1 { margin: 0; font-size: 2.2rem; }
+    header p { margin: 0.5rem 0 0; opacity: 0.9; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .badge {
+      display: inline-block;
+      background: #1e40af;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+    .warning {
+      background: #451a03;
+      border-left: 4px solid #f59e0b;
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+    }
+    button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    button:hover { background: var(--accent-hover); }
+    button.secondary { background: #475569; }
+    button.success { background: var(--success); }
+    button.danger { background: var(--danger); }
+    pre, .console {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      overflow-x: auto;
+      font-family: 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+    }
+    .console {
+      min-height: 120px;
+      max-height: 300px;
+      overflow-y: auto;
+      color: #a5f3fc;
+    }
+    textarea.code-editor {
+      width: 100%;
+      min-height: 220px;
+      background: #0d1117;
+      color: #e2e8f0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: monospace;
+      font-size: 0.9rem;
+      resize: vertical;
+    }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+    .status { font-weight: bold; }
+    .status.valid { color: var(--success); }
+    .status.invalid { color: var(--danger); }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>JScoin Lab</h1>
+    <p>Laboratorio interactivo progresivo — Criptomoneda educativa inspirada en Bitcoin</p>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <span class="badge">Práctica 1 — Fundamentos</span>
+      <h2>Bloques y Cadena de Bloques</h2>
+      <p>Un bloque agrupa datos (transacciones) y se enlaza al anterior mediante el hash. La cadena es inmutable solo si no se altera ningún bloque.</p>
+      <div class="warning">
+        <strong>Prototipo educativo.</strong> Esto NO es apto para producción. No tiene prueba de trabajo, firmas digitales, red P2P ni consenso. Es solo para aprender las estructuras de datos.
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Código ejecutable</h3>
+        <textarea id="codeEditor" class="code-editor" spellcheck="false"></textarea>
+        <div style="margin-top: 1rem;">
+          <button onclick="runCode()">Ejecutar código</button>
+          <button class="secondary" onclick="resetCode()">Restablecer</button>
+          <button class="success" onclick="checkValidity()">Comprobar validez</button>
+          <button class="danger" onclick="tamperBlock()">Alterar bloque 1</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Consola / Resultado</h3>
+        <div id="console" class="console">Listo. Pulsa “Ejecutar código” para empezar.</div>
+        <p style="margin-top: 1rem;">Estado de la cadena: <span id="chainStatus" class="status">—</span></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Ejercicios</h3>
+      <ol>
+        <li>Ejecuta el código y verifica que la cadena es válida.</li>
+        <li>Pulsa “Alterar bloque 1” y comprueba que la validez pasa a falsa.</li>
+        <li>Modifica el código para añadir un método <code>printChain()</code> que muestre índice, hash y previousHash de forma legible.</li>
+        <li>Añade 3 bloques más con datos inventados y confirma que la validez se mantiene.</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h3>Próximas prácticas (llegarán automáticamente cada día a las 16:00)</h3>
+      <ul>
+        <li>Práctica 2: Hashing y prueba de trabajo simple</li>
+        <li>Práctica 3: Transacciones y firmas</li>
+        <li>Práctica 4: Consenso básico</li>
+        <li>Práctica 5+: Red, seguridad y consideraciones de producción</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>
+    JScoin Lab · Prototipo educativo · <a href="https://github.com/josejulianh/jscoin-lab" style="color: var(--accent);">Repositorio en GitHub</a>
+  </footer>
+
+  <script>
+    const defaultCode = `// JScoin — Práctica 1 (adaptado a navegador)
+async function sha256(text) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(text);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+class Block {
+  constructor(index, timestamp, data, previousHash = '') {
+    this.index = index;
+    this.timestamp = timestamp;
+    this.data = data;
+    this.previousHash = previousHash;
+    this.hash = '';
+  }
+
+  async calculateHash() {
+    const str = this.index + this.previousHash + this.timestamp + JSON.stringify(this.data);
+    this.hash = await sha256(str);
+    return this.hash;
+  }
+}
+
+class Blockchain {
+  constructor() {
+    this.chain = [];
+  }
+
+  async createGenesisBlock() {
+    const genesis = new Block(0, Date.now(), 'Genesis Block', '0');
+    await genesis.calculateHash();
+    return genesis;
+  }
+
+  async init() {
+    this.chain = [await this.createGenesisBlock()];
+  }
+
+  getLatestBlock() {
+    return this.chain[this.chain.length - 1];
+  }
+
+  async addBlock(newBlock) {
+    newBlock.previousHash = this.getLatestBlock().hash;
+    await newBlock.calculateHash();
+    this.chain.push(newBlock);
+  }
+
+  async isChainValid() {
+    for (let i = 1; i < this.chain.length; i++) {
+      const current = this.chain[i];
+      const previous = this.chain[i - 1];
+      const recalculated = await current.calculateHash();
+      if (current.hash !== recalculated) return false;
+      if (current.previousHash !== previous.hash) return false;
+    }
+    return true;
+  }
+}
+
+// Uso de ejemplo (se ejecuta al pulsar el botón)
+const jscoin = new Blockchain();
+await jscoin.init();
+await jscoin.addBlock(new Block(1, Date.now(), { amount: 4 }));
+await jscoin.addBlock(new Block(2, Date.now(), { amount: 10 }));
+
+console.log('Cadena creada con', jscoin.chain.length, 'bloques');
+console.log(JSON.stringify(jscoin.chain, null, 2));
+const valid = await jscoin.isChainValid();
+console.log('Válida:', valid);
+window.jscoin = jscoin; // para los botones de comprobación
+`;
+
+    const editor = document.getElementById('codeEditor');
+    const consoleEl = document.getElementById('console');
+    const statusEl = document.getElementById('chainStatus');
+
+    function log(msg) {
+      consoleEl.textContent += (consoleEl.textContent ? '\n' : '') + msg;
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    }
+
+    function resetCode() {
+      editor.value = defaultCode;
+      consoleEl.textContent = 'Código restablecido. Pulsa Ejecutar.';
+      statusEl.textContent = '—';
+      statusEl.className = 'status';
+    }
+
+    resetCode();
+
+    async function runCode() {
+      consoleEl.textContent = 'Ejecutando...\n';
+      statusEl.textContent = '—';
+      statusEl.className = 'status';
+
+      // Captura de console.log
+      const originalLog = console.log;
+      const logs = [];
+      console.log = (...args) => {
+        logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
+        originalLog(...args);
+      };
+
+      try {
+        // Ejecutar como función async
+        const fn = new Function('return (async () => {\n' + editor.value + '\n})();');
+        await fn();
+        logs.forEach(l => log(l));
+        if (window.jscoin) {
+          const valid = await window.jscoin.isChainValid();
+          updateStatus(valid);
+        }
+      } catch (err) {
+        log('Error: ' + err.message);
+        console.error(err);
+      } finally {
+        console.log = originalLog;
+      }
+    }
+
+    function updateStatus(valid) {
+      statusEl.textContent = valid ? 'VÁLIDA' : 'INVÁLIDA';
+      statusEl.className = 'status ' + (valid ? 'valid' : 'invalid');
+    }
+
+    async function checkValidity() {
+      if (!window.jscoin) {
+        log('Primero ejecuta el código.');
+        return;
+      }
+      const valid = await window.jscoin.isChainValid();
+      log('Comprobación manual: ' + (valid ? 'VÁLIDA' : 'INVÁLIDA'));
+      updateStatus(valid);
+    }
+
+    async function tamperBlock() {
+      if (!window.jscoin || window.jscoin.chain.length < 2) {
+        log('Primero ejecuta el código para crear la cadena.');
+        return;
+      }
+      window.jscoin.chain[1].data = { amount: 999 };
+      log('Bloque 1 alterado (data cambiada).');
+      const valid = await window.jscoin.isChainValid();
+      log('Nueva validez: ' + (valid ? 'VÁLIDA' : 'INVÁLIDA'));
+      updateStatus(valid);
+    }
+
+    // Exponer funciones al scope global para los botones
+    window.runCode = runCode;
+    window.resetCode = resetCode;
+    window.checkValidity = checkValidity;
+    window.tamperBlock = tamperBlock;
+  </script>
+</body>
+</html>
