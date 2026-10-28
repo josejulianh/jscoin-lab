@@ -1,23 +1,33 @@
 # JScoin Lab
 
-Laboratorio progresivo para aprender a desarrollar **JScoin**, una criptomoneda educativa inspirada en Bitcoin, usando JavaScript.
+Laboratorio progresivo e **interactivo online** para aprender a desarrollar **JScoin**, una criptomoneda educativa inspirada en Bitcoin, usando JavaScript.
 
-## Semana 1: Fundamentos (Bloques y Cadena)
+## Laboratorio interactivo (recomendado)
 
-### Objetivo
-Crear las estructuras de datos mínimas de un bloque y una blockchain local.
+Abre el archivo `index.html` en el navegador o actívalo con GitHub Pages:
 
-### Cómo ejecutar
+**URL del laboratorio (después de activar Pages):**  
+https://josejulianh.github.io/jscoin-lab/
+
+### Cómo activar GitHub Pages (1 minuto)
+1. Ve a **Settings** del repositorio.
+2. En el menú izquierdo, entra en **Pages**.
+3. En **Source** elige **Deploy from a branch**.
+4. Branch: `main`, Folder: `/ (root)`.
+5. Guarda. En unos segundos estará disponible en la URL de arriba.
+
+## Práctica 1: Fundamentos (Bloques y Cadena)
+
+El laboratorio interactivo ya incluye:
+- Teoría clara
+- Editor de código ejecutable en el navegador
+- Botones para ejecutar, comprobar validez y alterar bloques
+- Consola de resultados
+- Ejercicios guiados
+
+También puedes ejecutar la versión Node:
 ```bash
 node week1/blockchain.js
 ```
 
-### Ejercicios
-1. Ejecuta el código y verifica que la cadena es válida.
-2. Modifica el `data` del bloque 1 después de añadirlo y comprueba que `isChainValid()` pasa a `false`.
-3. Añade un método `printChain()` que muestre de forma legible índice, hash y previousHash de cada bloque.
-4. Crea 3 bloques más con datos inventados y confirma que la validez se mantiene.
-
-**Importante**: Este es un prototipo educativo mínimo. No tiene prueba de trabajo, firmas, red ni consenso.
-
-Cada semana se añadirá una nueva práctica en su carpeta correspondiente.
+**Importante**: Todo es un prototipo educativo. No tiene prueba de trabajo, firmas, red ni consenso. Cada día a las 16:00 se añadirá la siguiente práctica automáticamente.
