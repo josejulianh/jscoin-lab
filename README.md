@@ -6,7 +6,7 @@ Laboratorio progresivo e **interactivo online** para aprender a desarrollar **JS
 
 Abre el archivo `index.html` en el navegador o actívalo con GitHub Pages:
 
-**URL del laboratorio (después de activar Pages):**  
+**URL del laboratorio:**  
 https://josejulianh.github.io/jscoin-lab/
 
 ### Cómo activar GitHub Pages (1 minuto)
@@ -16,18 +16,26 @@ https://josejulianh.github.io/jscoin-lab/
 4. Branch: `main`, Folder: `/ (root)`.
 5. Guarda. En unos segundos estará disponible en la URL de arriba.
 
-## Práctica 1: Fundamentos (Bloques y Cadena)
+## Prácticas disponibles
 
-El laboratorio interactivo ya incluye:
-- Teoría clara
-- Editor de código ejecutable en el navegador
-- Botones para ejecutar, comprobar validez y alterar bloques
-- Consola de resultados
-- Ejercicios guiados
+| Práctica | Tema | Carpeta |
+|-----------|------|---------|
+| 1 (Semana 1) | Fundamentos: Bloques y Cadena | `week1/` |
+| 2 (Semana/Día 2) | Prueba de Trabajo (PoW) simple | `week2/` |
 
-También puedes ejecutar la versión Node:
+### Ejecución Node
+
 ```bash
 node week1/blockchain.js
+node week2/blockchain.js
 ```
 
-**Importante**: Todo es un prototipo educativo. No tiene prueba de trabajo, firmas, red ni consenso. Cada día a las 16:00 se añadirá la siguiente práctica automáticamente.
+**Importante**: Todo es un prototipo educativo. No tiene firmas, red P2P, consenso real ni seguridad de producción. Cada día a las 16:00 se añade la siguiente práctica.
+
+## Progreso
+
+- [x] Semana/Día 1: Fundamentos
+- [x] Semana/Día 2: PoW
+- [ ] Semana/Día 3: Transacciones y firmas
+- [ ] Semana/Día 4: Consenso básico
+- [ ] Semana/Día 5+: Redes y seguridad
