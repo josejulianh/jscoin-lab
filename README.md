@@ -24,6 +24,7 @@ https://josejulianh.github.io/jscoin-lab/
 | 2 (Semana/Día 2) | Prueba de Trabajo (PoW) simple | `week2/` |
 | 3 (Semana/Día 3) | Transacciones y firmas digitales | `week3/` |
 | 4 (Semana/Día 4) | Consenso básico (cadena más larga) | `week4/` |
+| 5 (Semana/Día 5) | Redes y propagación básica de bloques | `week5/` |
 
 ### Ejecución Node
 
@@ -32,9 +33,10 @@ node week1/blockchain.js
 node week2/blockchain.js
 cd week3 && npm init -y && npm install elliptic && node blockchain.js
 cd week4 && npm init -y && npm install elliptic && node blockchain.js
+cd week5 && npm init -y && npm install elliptic && node blockchain.js
 ```
 
-**Importante**: Todo es un prototipo educativo. No tiene red P2P, consenso real ni seguridad de producción. Cada día a las 16:00 se añade la siguiente práctica.
+**Importante**: Todo es un prototipo educativo. No tiene red P2P real, consenso de producción ni seguridad de nivel producción. Cada día a las 16:00 se añade la siguiente práctica.
 
 ## Progreso
 
@@ -42,4 +44,5 @@ cd week4 && npm init -y && npm install elliptic && node blockchain.js
 - [x] Semana/Día 2: PoW
 - [x] Semana/Día 3: Transacciones y firmas
 - [x] Semana/Día 4: Consenso básico
-- [ ] Semana/Día 5+: Redes y seguridad
+- [x] Semana/Día 5: Redes y propagación básica
+- [ ] Semana/Día 6+: Seguridad avanzada
