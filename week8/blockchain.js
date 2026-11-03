@@ -195,7 +195,6 @@ class Blockchain {
       if (!current.hasValidTransactions()) return false;
       if (current.hash !== current.calculateHash()) return false;
       if (current.previousHash !== previous.hash) return false;
-      // Comprobación simple de dificultad declarada
       if (current.hash.substring(0, current.difficulty) !== '0'.repeat(current.difficulty)) return false;
     }
     return true;
@@ -228,7 +227,7 @@ class Node {
     this.name = name;
     this.blockchain = new Blockchain();
     this.peers = [];
-    this.seenTx = new Set(); // para evitar bucles
+    this.seenTx = new Set();
   }
 
   connect(peer) {
@@ -307,56 +306,57 @@ class Node {
 }
 
 // ========== DEMO / PRUEBAS ==========
-console.log('=== JScoin Lab - Práctica 8: Dificultad adaptativa ===');
-console.log('PROTOTIPO EDUCATIVO - No usar en producción\n');
+async function runDemo() {
+  console.log('=== JScoin Lab - Práctica 8: Dificultad adaptativa ===');
+  console.log('PROTOTIPO EDUCATIVO - No usar en producción\n');
 
-const aliceKey = ec.genKeyPair();
-const aliceAddress = aliceKey.getPublic('hex');
-const bobKey = ec.genKeyPair();
-const bobAddress = bobKey.getPublic('hex');
+  const aliceKey = ec.genKeyPair();
+  const aliceAddress = aliceKey.getPublic('hex');
+  const bobKey = ec.genKeyPair();
+  const bobAddress = bobKey.getPublic('hex');
 
-console.log('Alice:', aliceAddress.substring(0, 20) + '...');
-console.log('Bob:  ', bobAddress.substring(0, 20) + '...\n');
+  console.log('Alice:', aliceAddress.substring(0, 20) + '...');
+  console.log('Bob:  ', bobAddress.substring(0, 20) + '...\n');
 
-const nodeA = new Node('Nodo-A');
-const nodeB = new Node('Nodo-B');
+  const nodeA = new Node('Nodo-A');
+  const nodeB = new Node('Nodo-B');
 
-nodeA.connect(nodeB);
+  nodeA.connect(nodeB);
 
-console.log('Red creada: A ↔ B\n');
+  console.log('Red creada: A ↔ B\n');
 
-console.log('--- Minando varios bloques para observar ajuste de dificultad ---');
-for (let i = 0; i < 6; i++) {
-  nodeA.mine(aliceAddress);
-  // Pequeña pausa para que el tiempo sea medible
-  await new Promise(r => setTimeout(r, 100));
+  console.log('--- Minando varios bloques para observar ajuste de dificultad ---');
+  for (let i = 0; i < 6; i++) {
+    nodeA.mine(aliceAddress);
+    await new Promise(r => setTimeout(r, 100));
+  }
+
+  console.log('\n--- Estado después de minería inicial ---');
+  [nodeA, nodeB].forEach(n => {
+    const s = n.status();
+    console.log(`${s.name}: longitud=${s.length}, diff=${s.difficulty}, mempool=${s.mempool}, saldo Alice=${n.blockchain.getBalanceOfAddress(aliceAddress)}`);
+  });
+
+  console.log('\n--- Propagando transacción válida: Alice → Bob 30 ---');
+  const tx = new Transaction(aliceAddress, bobAddress, 30);
+  tx.sign(aliceKey);
+  nodeA.broadcastTransaction(tx);
+
+  console.log('\n--- Minando bloque con la transacción ---');
+  nodeB.mine(aliceAddress);
+
+  console.log('\n--- Estado final ---');
+  [nodeA, nodeB].forEach(n => {
+    const s = n.status();
+    console.log(`${s.name}: longitud=${s.length}, válida=${s.valid}, diff=${s.difficulty}, mempool=${s.mempool}`);
+    console.log(`  Saldo Alice: ${n.blockchain.getBalanceOfAddress(aliceAddress)}`);
+    console.log(`  Saldo Bob:   ${n.blockchain.getBalanceOfAddress(bobAddress)}`);
+  });
+
+  console.log('\n¿Todas las cadenas son válidas?', 
+    nodeA.blockchain.isChainValid() && nodeB.blockchain.isChainValid());
+
+  console.log('\nFin de la práctica 8. Prototipo educativo completado.');
 }
 
-console.log('\n--- Estado después de minería inicial ---');
-[nodeA, nodeB].forEach(n => {
-  const s = n.status();
-  console.log(`${s.name}: longitud=${s.length}, diff=${s.difficulty}, mempool=${s.mempool}, saldo Alice=${n.blockchain.getBalanceOfAddress(aliceAddress)}`);
-});
-
-console.log('\n--- Propagando transacción válida: Alice → Bob 30 ---');
-const tx = new Transaction(aliceAddress, bobAddress, 30);
-tx.sign(aliceKey);
-nodeA.broadcastTransaction(tx);
-
-console.log('\n--- Minando bloque con la transacción ---');
-nodeB.mine(aliceAddress);
-
-console.log('\n--- Estado final ---');
-[nodeA, nodeB].forEach(n => {
-  const s = n.status();
-  console.log(`${s.name}: longitud=${s.length}, válida=${s.valid}, diff=${s.difficulty}, mempool=${s.mempool}`);
-  console.log(`  Saldo Alice: ${n.blockchain.getBalanceOfAddress(aliceAddress)}`);
-  console.log(`  Saldo Bob:   ${n.blockchain.getBalanceOfAddress(bobAddress)}`);
-});
-
-console.log('\n¿Todas las cadenas son válidas?', 
-  nodeA.blockchain.isChainValid() && nodeB.blockchain.isChainValid());
-
-console.log('\nFin de la práctica 8. Prototipo educativo completado.');
-// Nota: el código usa await top-level, requiere Node.js moderno (v14.8+ con --experimental-top-level-await o v16+). 
-// Si falla, envuelve el demo en una función async.
+runDemo().catch(console.error);
