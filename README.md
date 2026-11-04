@@ -28,6 +28,7 @@ https://josejulianh.github.io/jscoin-lab/
 | 6 (Semana/Día 6) | Seguridad básica (double-spending y validaciones) | `week6/` |
 | 7 (Semana/Día 7) | Mejoras de red y sincronización de mempool | `week7/` |
 | 8 (Semana/Día 8) | Dificultad adaptativa y consideraciones adicionales | `week8/` |
+| 9 (Semana/Día 9) | Persistencia de la cadena y wallets simples | `week9/` |
 
 ### Ejecución Node
 
@@ -40,6 +41,7 @@ cd week5 && npm init -y && npm install elliptic && node blockchain.js
 cd week6 && npm init -y && npm install elliptic && node blockchain.js
 cd week7 && npm init -y && npm install elliptic && node blockchain.js
 cd week8 && npm init -y && npm install elliptic && node blockchain.js
+cd week9 && npm init -y && npm install elliptic && node blockchain.js
 ```
 
 **Importante**: Todo es un prototipo educativo. No tiene red P2P real, consenso de producción ni seguridad de nivel producción. Cada día a las 16:00 se añade la siguiente práctica.
@@ -54,4 +56,5 @@ cd week8 && npm init -y && npm install elliptic && node blockchain.js
 - [x] Semana/Día 6: Seguridad básica (double-spending)
 - [x] Semana/Día 7: Mejoras de red y sincronización de mempool
 - [x] Semana/Día 8: Dificultad adaptativa y consideraciones adicionales
-- [ ] Semana/Día 9+: Persistencia, wallets y consideraciones finales
+- [x] Semana/Día 9: Persistencia de la cadena y wallets simples
+- [ ] Semana/Día 10+: Temas avanzados opcionales o cierre del laboratorio
