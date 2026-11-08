@@ -32,6 +32,7 @@ https://josejulianh.github.io/jscoin-lab/
 | 10 (Semana/Día 10) | CLI interactivo, UTXO básico y cierre del laboratorio | `week10/` |
 | 11 (Semana/Día 11) | Árboles de Merkle y verificación SPV educativa | `week11/` |
 | 12 (Semana/Día 12) | Contratos inteligentes básicos educativos | `week12/` |
+| 13 (Semana/Día 13) | Modelo UTXO básico educativo | `week13/` |
 
 ### Ejecución Node
 
@@ -48,6 +49,7 @@ cd week9 && npm init -y && npm install elliptic && node blockchain.js
 cd week10 && npm init -y && npm install elliptic && node blockchain.js
 cd week11 && npm init -y && npm install elliptic && node blockchain.js
 cd week12 && npm init -y && npm install elliptic && node blockchain.js
+cd week13 && npm init -y && npm install elliptic && node blockchain.js
 ```
 
 **Importante**: Todo es un prototipo educativo. No tiene red P2P real, consenso de producción ni seguridad de nivel producción. Cada día a las 16:00 se añade la siguiente práctica.
@@ -66,4 +68,5 @@ cd week12 && npm init -y && npm install elliptic && node blockchain.js
 - [x] Semana/Día 10: CLI interactivo, UTXO básico y cierre del laboratorio
 - [x] Semana/Día 11: Árboles de Merkle y verificación SPV educativa
 - [x] Semana/Día 12: Contratos inteligentes básicos educativos
-- [ ] Semana/Día 13+: Temas avanzados opcionales (P2P real, más contratos, etc.) o fin del laboratorio
+- [x] Semana/Día 13: Modelo UTXO básico educativo
+- [ ] Semana/Día 14+: Temas avanzados opcionales (multi-nodo realista, scripts, etc.) o fin del laboratorio
