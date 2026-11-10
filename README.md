@@ -34,6 +34,7 @@ https://josejulianh.github.io/jscoin-lab/
 | 12 (Semana/Día 12) | Contratos inteligentes básicos educativos | `week12/` |
 | 13 (Semana/Día 13) | Modelo UTXO básico educativo | `week13/` |
 | 14 (Semana/Día 14) | Simulación multi-nodo educativa | `week14/` |
+| 15 (Semana/Día 15) | Scripts básicos educativos (locking/unlocking) | `week15/` |
 
 ### Ejecución Node
 
@@ -52,6 +53,7 @@ cd week11 && npm init -y && npm install elliptic && node blockchain.js
 cd week12 && npm init -y && npm install elliptic && node blockchain.js
 cd week13 && npm init -y && npm install elliptic && node blockchain.js
 cd week14 && npm init -y && npm install elliptic && node blockchain.js
+cd week15 && npm init -y && npm install elliptic && node blockchain.js
 ```
 
 **Importante**: Todo es un prototipo educativo. No tiene red P2P real, consenso de producción ni seguridad de nivel producción. Cada día a las 16:00 se añade la siguiente práctica.
@@ -72,4 +74,5 @@ cd week14 && npm init -y && npm install elliptic && node blockchain.js
 - [x] Semana/Día 12: Contratos inteligentes básicos educativos
 - [x] Semana/Día 13: Modelo UTXO básico educativo
 - [x] Semana/Día 14: Simulación multi-nodo educativa
-- [ ] Semana/Día 15+: Temas avanzados opcionales (scripts, fees, etc.) o fin del laboratorio
+- [x] Semana/Día 15: Scripts básicos educativos (locking/unlocking)
+- [ ] Semana/Día 16+: Temas avanzados opcionales (fees, RBF, etc.) o fin del laboratorio
