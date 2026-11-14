@@ -37,6 +37,7 @@ https://josejulianh.github.io/jscoin-lab/
 | 15 (Semana/Día 15) | Scripts básicos educativos (locking/unlocking) | `week15/` |
 | 16 (Semana/Día 16) | Fees básicos educativos y Replace-By-Fee (RBF) simple | `week16/` |
 | 17 (Semana/Día 17) | Estimación básica de fees y límites de mempool (eviction) | `week17/` |
+| 18 (Semana/Día 18) | Estimación de fees basada en bloques confirmados y simulación de congestión | `week18/` |
 
 ### Ejecución Node
 
@@ -58,6 +59,7 @@ cd week14 && npm init -y && npm install elliptic && node blockchain.js
 cd week15 && npm init -y && npm install elliptic && node blockchain.js
 cd week16 && npm init -y && npm install elliptic && node blockchain.js
 cd week17 && npm init -y && npm install elliptic && node blockchain.js
+cd week18 && npm init -y && npm install elliptic && node blockchain.js
 ```
 
 **Importante**: Todo es un prototipo educativo. No tiene red P2P real, consenso de producción ni seguridad de nivel producción. Cada día a las 16:00 se añade la siguiente práctica.
@@ -81,4 +83,5 @@ cd week17 && npm init -y && npm install elliptic && node blockchain.js
 - [x] Semana/Día 15: Scripts básicos educativos (locking/unlocking)
 - [x] Semana/Día 16: Fees básicos educativos y Replace-By-Fee (RBF) simple
 - [x] Semana/Día 17: Estimación básica de fees y límites de mempool (eviction)
-- [ ] Semana/Día 18+: Temas avanzados opcionales o fin del laboratorio
+- [x] Semana/Día 18: Estimación de fees basada en bloques confirmados y simulación de congestión
+- [ ] Semana/Día 19+: Temas avanzados opcionales o fin del laboratorio
