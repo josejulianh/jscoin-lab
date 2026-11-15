@@ -1,6 +1,6 @@
 // JScoin - Semana/Día 2: Prueba de Trabajo (Proof-of-Work) simple
 // PROTOTIPO EDUCATIVO. NO apto para producción.
-// No tiene: firmas, red P2P, consenso real, recompensas, dificultad adaptativa, etc.
+// No tiene: firmas, red P2P, consenso real, recompensas, dificultad adaptativa completa, etc.
 
 const crypto = require('crypto');
 
@@ -31,14 +31,16 @@ class Block {
   mineBlock(difficulty) {
     const target = '0'.repeat(difficulty);
     const start = Date.now();
+    let hashes = 0;
 
     while (this.hash.substring(0, difficulty) !== target) {
       this.nonce++;
       this.hash = this.calculateHash();
+      hashes++;
     }
 
     const time = Date.now() - start;
-    console.log(`Bloque minado: ${this.hash} (nonce: ${this.nonce}, tiempo: ${time}ms)`);
+    console.log(`Bloque minado: ${this.hash} (nonce: ${this.nonce}, hashes: ${hashes}, tiempo: ${time}ms)`);
   }
 }
 
@@ -77,9 +79,22 @@ class Blockchain {
     }
     return true;
   }
+
+  // Extra educativo: saldo simplificado (sin firmas ni UTXO real)
+  getBalance(address) {
+    let balance = 0;
+    for (const block of this.chain) {
+      const data = block.data;
+      if (typeof data === 'object' && data !== null) {
+        if (data.to === address) balance += data.amount || 0;
+        if (data.from === address) balance -= data.amount || 0;
+      }
+    }
+    return balance;
+  }
 }
 
-// ========== DEMO / PRUEBAS ==========
+// ========== DEMO / PRUEBAS VERIFICABLES ==========
 console.log('=== JScoin Lab - Práctica 2: PoW ===');
 console.log('PROTOTIPO EDUCATIVO - No usar en producción\n');
 
@@ -101,3 +116,7 @@ console.log('\n¿Cadena válida?', jscoin.isChainValid());
 console.log('\n--- Prueba de alteración ---');
 jscoin.chain[1].data.amount = 999;
 console.log('¿Cadena válida después de alterar datos?', jscoin.isChainValid());
+
+// Ejemplo de getBalance
+console.log('\nSaldo de Bob (simplificado):', jscoin.getBalance('Bob'));
+console.log('Saldo de Alice (simplificado):', jscoin.getBalance('Alice'));
