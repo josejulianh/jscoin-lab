@@ -38,6 +38,7 @@ https://josejulianh.github.io/jscoin-lab/
 | 16 (Semana/Día 16) | Fees básicos educativos y Replace-By-Fee (RBF) simple | `week16/` |
 | 17 (Semana/Día 17) | Estimación básica de fees y límites de mempool (eviction) | `week17/` |
 | 18 (Semana/Día 18) | Estimación de fees basada en bloques confirmados y simulación de congestión | `week18/` |
+| 19 (Semana/Día 19) | Explorador simple de la cadena y cierre del laboratorio | `week19/` |
 
 ### Ejecución Node
 
@@ -60,6 +61,7 @@ cd week15 && npm init -y && npm install elliptic && node blockchain.js
 cd week16 && npm init -y && npm install elliptic && node blockchain.js
 cd week17 && npm init -y && npm install elliptic && node blockchain.js
 cd week18 && npm init -y && npm install elliptic && node blockchain.js
+cd week19 && npm init -y && npm install elliptic && node blockchain.js
 ```
 
 **Importante**: Todo es un prototipo educativo. No tiene red P2P real, consenso de producción ni seguridad de nivel producción. Cada día a las 16:00 se añade la siguiente práctica.
@@ -84,4 +86,5 @@ cd week18 && npm init -y && npm install elliptic && node blockchain.js
 - [x] Semana/Día 16: Fees básicos educativos y Replace-By-Fee (RBF) simple
 - [x] Semana/Día 17: Estimación básica de fees y límites de mempool (eviction)
 - [x] Semana/Día 18: Estimación de fees basada en bloques confirmados y simulación de congestión
-- [ ] Semana/Día 19+: Temas avanzados opcionales o fin del laboratorio
+- [x] Semana/Día 19: Explorador simple de la cadena y cierre del laboratorio
+- [ ] Semana/Día 20+: Temas avanzados opcionales o fin del laboratorio
