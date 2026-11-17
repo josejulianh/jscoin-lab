@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JScoin Lab — Laboratorio Interactivo</title>
+  <title>JScoin Lab — Laboratorio Interactivo Completo</title>
   <style>
     :root {
       --bg: #0f1419;
@@ -26,18 +26,53 @@
     }
     header {
       background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-      padding: 2rem 1.5rem;
+      padding: 2.5rem 1.5rem;
       text-align: center;
     }
-    header h1 { margin: 0; font-size: 2.2rem; }
-    header p { margin: 0.5rem 0 0; opacity: 0.9; }
-    .container { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
+    header h1 { margin: 0; font-size: 2.4rem; }
+    header p { margin: 0.5rem 0 0; opacity: 0.9; font-size: 1.1rem; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
+    .progress-bar {
+      background: #334155;
+      border-radius: 999px;
+      height: 12px;
+      margin: 1rem 0;
+      overflow: hidden;
+    }
+    .progress-fill {
+      background: linear-gradient(90deg, #10b981, #3b82f6);
+      height: 100%;
+      width: 100%;
+      border-radius: 999px;
+    }
+    .search-box {
+      width: 100%;
+      max-width: 500px;
+      margin: 1rem auto 2rem;
+      display: block;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 1rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
     .card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 1.5rem;
-      margin-bottom: 1.5rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
     }
     .badge {
       display: inline-block;
@@ -45,16 +80,39 @@
       color: white;
       padding: 0.25rem 0.75rem;
       border-radius: 999px;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       margin-bottom: 0.75rem;
     }
-    .badge.week2 { background: #7c3aed; }
+    .badge.completed { background: var(--success); }
+    h3 { margin: 0.5rem 0; font-size: 1.25rem; }
+    .muted { color: var(--muted); font-size: 0.95rem; }
     .warning {
       background: #451a03;
       border-left: 4px solid #f59e0b;
       padding: 1rem;
       border-radius: 8px;
-      margin: 1rem 0;
+      margin: 1.5rem 0;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal.open { display: flex; }
+    .modal-content {
+      background: var(--card);
+      border-radius: 12px;
+      max-width: 800px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 2rem;
+      border: 1px solid var(--border);
     }
     button {
       background: var(--accent);
@@ -69,369 +127,138 @@
     }
     button:hover { background: var(--accent-hover); }
     button.secondary { background: #475569; }
-    button.success { background: var(--success); }
-    button.danger { background: var(--danger); }
-    pre, .console {
-      background: #0d1117;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem;
-      overflow-x: auto;
-      font-family: 'Fira Code', 'Cascadia Code', monospace;
-      font-size: 0.9rem;
-      white-space: pre-wrap;
-    }
-    .console {
-      min-height: 120px;
-      max-height: 300px;
-      overflow-y: auto;
-      color: #a5f3fc;
-    }
-    textarea.code-editor {
-      width: 100%;
-      min-height: 280px;
-      background: #0d1117;
-      color: #e2e8f0;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem;
-      font-family: monospace;
-      font-size: 0.9rem;
-      resize: vertical;
-    }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-    @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
-    .status { font-weight: bold; }
-    .status.valid { color: var(--success); }
-    .status.invalid { color: var(--danger); }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
     footer {
       text-align: center;
       padding: 2rem;
       color: var(--muted);
       font-size: 0.9rem;
     }
-    .tabs { margin-bottom: 1rem; }
-    .tabs button { background: #334155; }
-    .tabs button.active { background: var(--accent); }
+    pre {
+      background: #0d1117;
+      border-radius: 8px;
+      padding: 1rem;
+      overflow-x: auto;
+      font-size: 0.85rem;
+    }
   </style>
 </head>
 <body>
   <header>
     <h1>JScoin Lab</h1>
-    <p>Laboratorio interactivo progresivo — Criptomoneda educativa inspirada en Bitcoin</p>
+    <p>Laboratorio progresivo e interactivo — Criptomoneda educativa inspirada en Bitcoin</p>
   </header>
 
   <div class="container">
-    <div class="card">
-      <span class="badge week2">Práctica 2 — Semana/Día 2</span>
-      <h2>Prueba de Trabajo (Proof-of-Work) simple</h2>
-      <p>Un bloque solo se añade cuando se encuentra un <code>nonce</code> tal que su hash empieza por un número de ceros (la dificultad). Esto hace costoso alterar la cadena.</p>
+    <div class="card" style="text-align: center; margin-bottom: 2rem;">
+      <h2>Progreso del laboratorio</h2>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+      <p><strong>20 / 20 prácticas completadas</strong> — Desde fundamentos hasta multi-firma educativa</p>
       <div class="warning">
-        <strong>Prototipo educativo.</strong> Esto NO es apto para producción. No tiene firmas digitales, red P2P, consenso real, recompensas ni dificultad adaptativa de Bitcoin. Solo sirve para entender el concepto de PoW.
+        <strong>⚠️ Prototipo educativo.</strong> Todo el código es un prototipo simplificado. <strong>NO apto para producción</strong>. Carece de red P2P real, consenso de Nakamoto completo, seguridad criptográfica de nivel producción, UTXO real, protección contra ataques, etc. Sirve únicamente para aprender los conceptos paso a paso en JavaScript.
       </div>
     </div>
 
-    <div class="tabs">
-      <button class="active" onclick="loadPractice(2)">Práctica 2 (PoW)</button>
-      <button onclick="loadPractice(1)">Práctica 1 (Fundamentos)</button>
-    </div>
+    <input type="search" id="search" class="search-box" placeholder="Buscar práctica (ej. PoW, firmas, UTXO, explorador)...">
 
-    <div class="grid">
-      <div class="card">
-        <h3>Código ejecutable</h3>
-        <textarea id="codeEditor" class="code-editor" spellcheck="false"></textarea>
-        <div style="margin-top: 1rem;">
-          <button onclick="runCode()">Ejecutar código</button>
-          <button class="secondary" onclick="resetCode()">Restablecer</button>
-          <button class="success" onclick="checkValidity()">Comprobar validez</button>
-          <button class="danger" onclick="tamperBlock()">Alterar bloque 1</button>
-        </div>
-      </div>
+    <div id="practicesGrid" class="grid"></div>
+  </div>
 
-      <div class="card">
-        <h3>Consola / Resultado</h3>
-        <div id="console" class="console">Listo. Pulsa “Ejecutar código” para empezar.</div>
-        <p style="margin-top: 1rem;">Estado de la cadena: <span id="chainStatus" class="status">—</span></p>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>Ejercicios (Práctica 2)</h3>
-      <ol>
-        <li>Ejecuta el código con dificultad 2. Observa el nonce y el tiempo.</li>
-        <li>Cambia la dificultad a 3 o 4 y vuelve a ejecutar. Compara tiempos.</li>
-        <li>Pulsa “Alterar bloque 1” y comprueba que la validez pasa a falsa (el hash ya no cumple la dificultad ni el cálculo).</li>
-        <li>Modifica el código para contar y mostrar cuántos hashes se calcularon al minar cada bloque.</li>
-        <li>Añade un método <code>getBalance(address)</code> simple que recorra la cadena.</li>
-      </ol>
-    </div>
-
-    <div class="card">
-      <h3>Progreso y próximas prácticas</h3>
-      <ul>
-        <li>✓ Práctica 1: Fundamentos (bloques y cadena)</li>
-        <li>✓ Práctica 2: Hashing y prueba de trabajo simple</li>
-        <li>☐ Práctica 3: Transacciones y firmas</li>
-        <li>☐ Práctica 4: Consenso básico</li>
-        <li>☐ Práctica 5+: Red, seguridad y consideraciones de producción</li>
-      </ul>
-      <p>Cada día a las 16:00 se añade la siguiente práctica al repositorio.</p>
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <button class="secondary" onclick="closeModal()" style="float: right;">Cerrar</button>
+      <div id="modalBody"></div>
     </div>
   </div>
 
   <footer>
-    JScoin Lab · Prototipo educativo · <a href="https://github.com/josejulianh/jscoin-lab" style="color: var(--accent);">Repositorio en GitHub</a>
+    JScoin Lab · Prototipo educativo · <a href="https://github.com/josejulianh/jscoin-lab">Repositorio en GitHub</a> · <a href="https://josejulianh.github.io/jscoin-lab/">Laboratorio online</a>
   </footer>
 
   <script>
-    const practice1Code = `// JScoin — Práctica 1 (Fundamentos)
-async function sha256(text) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(text);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-}
+    const practices = [
+      { id: 1, title: "Fundamentos: Bloques y Cadena", desc: "Bloques, hashes SHA-256, cadena enlazada y validación básica.", theory: "Un bloque contiene datos, timestamp, hash anterior y su propio hash. La cadena es inmutable porque cambiar un bloque invalida todos los posteriores.", exercises: ["Ejecuta y observa la cadena", "Altera un bloque y comprueba que isChainValid() falla", "Añade más bloques"], folder: "week1" },
+      { id: 2, title: "Prueba de Trabajo (PoW) simple", desc: "Nonce, dificultad (ceros iniciales) y minería de bloques.", theory: "El minero incrementa el nonce hasta que el hash empieza por N ceros. Hace costoso alterar la historia.", exercises: ["Prueba dificultad 2, 3 y 4", "Cuenta hashes calculados", "Altera y re-mina"], folder: "week2" },
+      { id: 3, title: "Transacciones y firmas digitales", desc: "Wallets ECDSA (secp256k1), firmas y mempool básico.", theory: "Se firman transacciones con clave privada. La pública verifica. Modelo de cuentas simplificado.", exercises: ["Genera wallets y firma", "Altera después de firmar", "Calcula saldos"], folder: "week3" },
+      { id: 4, title: "Consenso básico (cadena más larga)", desc: "Regla de la cadena más larga y resolución de forks simples.", theory: "En caso de divergencia se elige la cadena con más trabajo acumulado (más bloques minados).", exercises: ["Simula un fork", "Elige la cadena más larga", "Valida después del switch"], folder: "week4" },
+      { id: 5, title: "Redes y propagación básica de bloques", desc: "Simulación de nodos y propagación de bloques.", theory: "Los nodos se comunican y propagan bloques válidos. Prototipo sin P2P real.", exercises: ["Simula varios nodos", "Propaga un bloque", "Observa sincronización"], folder: "week5" },
+      { id: 6, title: "Seguridad básica (double-spending)", desc: "Validaciones contra doble gasto y transacciones inválidas.", theory: "Se verifica saldo suficiente y firmas antes de aceptar transacciones.", exercises: ["Intenta double-spend", "Verifica rechazo", "Añade más checks"], folder: "week6" },
+      { id: 7, title: "Mejoras de red y sincronización de mempool", desc: "Sincronización de transacciones pendientes entre nodos.", theory: "Los nodos intercambian mempool para tener las mismas transacciones pendientes.", exercises: ["Sincroniza mempools", "Minar en un nodo y propagar", "Observa consistencia"], folder: "week7" },
+      { id: 8, title: "Dificultad adaptativa", desc: "Ajuste simple de dificultad según tiempo de minería.", theory: "Si los bloques se minan demasiado rápido se sube la dificultad, y viceversa.", exercises: ["Implementa ajuste", "Observa cambios de dificultad", "Simula tiempos variables"], folder: "week8" },
+      { id: 9, title: "Persistencia de la cadena y wallets simples", desc: "Guardar/cargar la cadena y wallets en disco (JSON).", theory: "La cadena y claves se persisten para que el nodo recuerde el estado.", exercises: ["Persiste y reinicia", "Verifica que carga bien", "Exporta wallet"], folder: "week9" },
+      { id: 10, title: "CLI interactivo, UTXO básico y cierre del núcleo", desc: "Menú CLI, modelo UTXO simplificado y resumen.", theory: "Interfaz de línea de comandos + seguimiento básico de UTXOs además de saldos.", exercises: ["Usa el CLI", "Crea wallets y envía", "Verifica persistencia"], folder: "week10" },
+      { id: 11, title: "Árboles de Merkle y verificación SPV educativa", desc: "Merkle tree para verificación eficiente de transacciones.", theory: "El árbol de Merkle permite probar que una tx está en el bloque sin descargar todo.", exercises: ["Construye Merkle root", "Verifica prueba", "Compara con full node"], folder: "week11" },
+      { id: 12, title: "Contratos inteligentes básicos educativos", desc: "Simulación simple de lógica programable en transacciones.", theory: "Prototipo de “contratos” mediante condiciones en datos de transacción.", exercises: ["Crea un contrato simple", "Ejecuta condiciones", "Observa resultados"], folder: "week12" },
+      { id: 13, title: "Modelo UTXO básico educativo", desc: "Implementación más formal de Unspent Transaction Outputs.", theory: "Cada tx consume UTXOs y crea nuevos. Evita double-spend de forma precisa.", exercises: ["Rastrea UTXOs", "Gasta y crea", "Valida contra set"], folder: "week13" },
+      { id: 14, title: "Simulación multi-nodo educativa", desc: "Varios nodos locales que se sincronizan.", theory: "Simulación de red con varios nodos minando y propagando.", exercises: ["Arranca varios nodos", "Observa forks y resolución", "Sincroniza"], folder: "week14" },
+      { id: 15, title: "Scripts básicos educativos (locking/unlocking)", desc: "Simulación de scripts de bloqueo y desbloqueo.", theory: "Prototipo de locking script y unlocking script similar a Bitcoin.", exercises: ["Crea script simple", "Desbloquea", "Valida"], folder: "week15" },
+      { id: 16, title: "Fees básicos educativos y Replace-By-Fee (RBF) simple", desc: "Fees y reemplazo de transacciones en mempool.", theory: "Las fees incentivan a mineros. RBF permite reemplazar una tx por otra con mayor fee.", exercises: ["Añade fees", "Reemplaza tx", "Minero recibe fees"], folder: "week16" },
+      { id: 17, title: "Estimación básica de fees y límites de mempool (eviction)", desc: "Estimación de fee rate y expulsión por límite de mempool.", theory: "Se priorizan txs con mayor fee rate. Si el mempool se llena, se expulsan las más baratas.", exercises: ["Llena mempool", "Observa eviction", "Ajusta fees"], folder: "week17" },
+      { id: 18, title: "Estimación de fees basada en bloques confirmados y congestión", desc: "Fee estimation usando datos de bloques recientes y simulación de congestión.", theory: "Se estima el fee necesario mirando txs confirmadas recientemente.", exercises: ["Simula congestión", "Calcula fee rate recomendado", "Observa confirmaciones"], folder: "week18" },
+      { id: 19, title: "Explorador simple de la cadena y cierre del laboratorio", desc: "Método explore() para visualizar bloques, txs y saldos.", theory: "Un explorador hace legible el contenido de la cadena.", exercises: ["Ejecuta explore()", "Filtra por dirección", "Busca por ID de tx"], folder: "week19" },
+      { id: 20, title: "Multi-firma educativa básica", desc: "Simulación de transacciones 2-de-3 (multisig).", theory: "Se requieren múltiples firmas válidas de un conjunto de claves autorizadas.", exercises: ["Configura 2-de-3", "Prueba con firmas insuficientes", "Acepta con suficientes"], folder: "week20" }
+    ];
 
-class Block {
-  constructor(index, timestamp, data, previousHash = '') {
-    this.index = index;
-    this.timestamp = timestamp;
-    this.data = data;
-    this.previousHash = previousHash;
-    this.hash = '';
-  }
-
-  async calculateHash() {
-    const str = this.index + this.previousHash + this.timestamp + JSON.stringify(this.data);
-    this.hash = await sha256(str);
-    return this.hash;
-  }
-}
-
-class Blockchain {
-  constructor() {
-    this.chain = [];
-  }
-
-  async createGenesisBlock() {
-    const genesis = new Block(0, Date.now(), 'Genesis Block', '0');
-    await genesis.calculateHash();
-    return genesis;
-  }
-
-  async init() {
-    this.chain = [await this.createGenesisBlock()];
-  }
-
-  getLatestBlock() {
-    return this.chain[this.chain.length - 1];
-  }
-
-  async addBlock(newBlock) {
-    newBlock.previousHash = this.getLatestBlock().hash;
-    await newBlock.calculateHash();
-    this.chain.push(newBlock);
-  }
-
-  async isChainValid() {
-    for (let i = 1; i < this.chain.length; i++) {
-      const current = this.chain[i];
-      const previous = this.chain[i - 1];
-      const recalculated = await current.calculateHash();
-      if (current.hash !== recalculated) return false;
-      if (current.previousHash !== previous.hash) return false;
-    }
-    return true;
-  }
-}
-
-const jscoin = new Blockchain();
-await jscoin.init();
-await jscoin.addBlock(new Block(1, Date.now(), { amount: 4 }));
-await jscoin.addBlock(new Block(2, Date.now(), { amount: 10 }));
-
-console.log('Cadena creada con', jscoin.chain.length, 'bloques');
-console.log(JSON.stringify(jscoin.chain, null, 2));
-const valid = await jscoin.isChainValid();
-console.log('Válida:', valid);
-window.jscoin = jscoin;
-`;
-
-    const practice2Code = `// JScoin — Práctica 2 (PoW) — Prototipo educativo
-async function sha256(text) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(text);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
-class Block {
-  constructor(index, timestamp, data, previousHash = '') {
-    this.index = index;
-    this.timestamp = timestamp;
-    this.data = data;
-    this.previousHash = previousHash;
-    this.nonce = 0;
-    this.hash = '';
-  }
-
-  async calculateHash() {
-    const str = this.index + this.previousHash + this.timestamp + JSON.stringify(this.data) + this.nonce;
-    this.hash = await sha256(str);
-    return this.hash;
-  }
-
-  async mineBlock(difficulty) {
-    const target = '0'.repeat(difficulty);
-    const start = Date.now();
-    while ((await this.calculateHash()).substring(0, difficulty) !== target) {
-      this.nonce++;
-    }
-    const time = Date.now() - start;
-    console.log('Bloque minado:', this.hash, '(nonce:', this.nonce + ', tiempo:', time + 'ms)');
-  }
-}
-
-class Blockchain {
-  constructor(difficulty = 2) {
-    this.chain = [];
-    this.difficulty = difficulty;
-  }
-
-  async createGenesisBlock() {
-    const genesis = new Block(0, Date.now(), 'Genesis Block', '0');
-    await genesis.mineBlock(this.difficulty);
-    return genesis;
-  }
-
-  async init() {
-    this.chain = [await this.createGenesisBlock()];
-  }
-
-  getLatestBlock() {
-    return this.chain[this.chain.length - 1];
-  }
-
-  async addBlock(newBlock) {
-    newBlock.previousHash = this.getLatestBlock().hash;
-    await newBlock.mineBlock(this.difficulty);
-    this.chain.push(newBlock);
-  }
-
-  async isChainValid() {
-    for (let i = 1; i < this.chain.length; i++) {
-      const current = this.chain[i];
-      const previous = this.chain[i - 1];
-      const recalculated = await current.calculateHash();
-      if (current.hash !== recalculated) return false;
-      if (current.previousHash !== previous.hash) return false;
-      if (current.hash.substring(0, this.difficulty) !== '0'.repeat(this.difficulty)) return false;
-    }
-    return true;
-  }
-}
-
-const difficulty = 2; // Cambia a 3 o 4 para más dificultad
-const jscoin = new Blockchain(difficulty);
-await jscoin.init();
-await jscoin.addBlock(new Block(1, Date.now(), { from: 'Alice', to: 'Bob', amount: 5 }));
-await jscoin.addBlock(new Block(2, Date.now(), { from: 'Bob', to: 'Charlie', amount: 2 }));
-
-console.log('Cadena minada con dificultad', difficulty);
-console.log(JSON.stringify(jscoin.chain.map(b => ({index: b.index, hash: b.hash, nonce: b.nonce})), null, 2));
-const valid = await jscoin.isChainValid();
-console.log('Válida:', valid);
-window.jscoin = jscoin;
-`;
-
-    let currentPractice = 2;
-    const editor = document.getElementById('codeEditor');
-    const consoleEl = document.getElementById('console');
-    const statusEl = document.getElementById('chainStatus');
-
-    function loadPractice(n) {
-      currentPractice = n;
-      document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
-      event.target.classList.add('active');
-      resetCode();
+    function renderPractices(filter = '') {
+      const grid = document.getElementById('practicesGrid');
+      const filtered = practices.filter(p =>
+        p.title.toLowerCase().includes(filter.toLowerCase()) ||
+        p.desc.toLowerCase().includes(filter.toLowerCase())
+      );
+      grid.innerHTML = filtered.map(p => `
+        <div class="card" onclick="openPractice(${p.id})">
+          <span class="badge completed">Práctica ${p.id}</span>
+          <h3>${p.title}</h3>
+          <p class="muted">${p.desc}</p>
+          <p style="margin-top: 1rem; font-size: 0.9rem;">Carpeta: <code>${p.folder}/</code></p>
+        </div>
+      `).join('');
     }
 
-    function log(msg) {
-      consoleEl.textContent += (consoleEl.textContent ? '\n' : '') + msg;
-      consoleEl.scrollTop = consoleEl.scrollHeight;
+    function openPractice(id) {
+      const p = practices.find(x => x.id === id);
+      if (!p) return;
+      const githubUrl = `https://github.com/josejulianh/jscoin-lab/tree/main/${p.folder}`;
+      document.getElementById('modalBody').innerHTML = `
+        <span class="badge completed">Práctica ${p.id}</span>
+        <h2>${p.title}</h2>
+        <p>${p.desc}</p>
+        <h3>Teoría</h3>
+        <p>${p.theory}</p>
+        <h3>Ejercicios</h3>
+        <ol>${p.exercises.map(e => `<li>${e}</li>`).join('')}</ol>
+        <h3>Cómo ejecutar</h3>
+        <pre>cd ${p.folder}
+npm init -y
+npm install elliptic
+node blockchain.js</pre>
+        <p><strong>Resultados verificables:</strong> Cadena válida, mensajes claros, y distinción explícita de que es prototipo educativo.</p>
+        <div style="margin-top: 1.5rem;">
+          <a href="${githubUrl}" target="_blank"><button>Ver código en GitHub</button></a>
+          <a href="${githubUrl}/blockchain.js" target="_blank"><button class="secondary">blockchain.js</button></a>
+          <a href="${githubUrl}/README.md" target="_blank"><button class="secondary">README completo</button></a>
+        </div>
+        <div class="warning" style="margin-top: 1.5rem;">
+          <strong>Prototipo educativo.</strong> No apto para producción. Nunca uses este código con valor real.
+        </div>
+      `;
+      document.getElementById('modal').classList.add('open');
     }
 
-    function resetCode() {
-      editor.value = currentPractice === 1 ? practice1Code : practice2Code;
-      consoleEl.textContent = 'Código de Práctica ' + currentPractice + ' restablecido. Pulsa Ejecutar.';
-      statusEl.textContent = '—';
-      statusEl.className = 'status';
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
     }
 
-    resetCode();
+    document.getElementById('search').addEventListener('input', (e) => {
+      renderPractices(e.target.value);
+    });
 
-    async function runCode() {
-      consoleEl.textContent = 'Ejecutando...\n';
-      statusEl.textContent = '—';
-      statusEl.className = 'status';
+    document.getElementById('modal').addEventListener('click', (e) => {
+      if (e.target.id === 'modal') closeModal();
+    });
 
-      const originalLog = console.log;
-      const logs = [];
-      console.log = (...args) => {
-        logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
-        originalLog(...args);
-      };
-
-      try {
-        const fn = new Function('return (async () => {\n' + editor.value + '\n})();');
-        await fn();
-        logs.forEach(l => log(l));
-        if (window.jscoin) {
-          const valid = await window.jscoin.isChainValid();
-          updateStatus(valid);
-        }
-      } catch (err) {
-        log('Error: ' + err.message);
-        console.error(err);
-      } finally {
-        console.log = originalLog;
-      }
-    }
-
-    function updateStatus(valid) {
-      statusEl.textContent = valid ? 'VÁLIDA' : 'INVÁLIDA';
-      statusEl.className = 'status ' + (valid ? 'valid' : 'invalid');
-    }
-
-    async function checkValidity() {
-      if (!window.jscoin) {
-        log('Primero ejecuta el código.');
-        return;
-      }
-      const valid = await window.jscoin.isChainValid();
-      log('Comprobación manual: ' + (valid ? 'VÁLIDA' : 'INVÁLIDA'));
-      updateStatus(valid);
-    }
-
-    async function tamperBlock() {
-      if (!window.jscoin || window.jscoin.chain.length < 2) {
-        log('Primero ejecuta el código para crear la cadena.');
-        return;
-      }
-      window.jscoin.chain[1].data.amount = 999;
-      log('Bloque 1 alterado (data cambiada).');
-      const valid = await window.jscoin.isChainValid();
-      log('Nueva validez: ' + (valid ? 'VÁLIDA' : 'INVÁLIDA'));
-      updateStatus(valid);
-    }
-
-    window.runCode = runCode;
-    window.resetCode = resetCode;
-    window.checkValidity = checkValidity;
-    window.tamperBlock = tamperBlock;
-    window.loadPractice = loadPractice;
+    renderPractices();
   </script>
 </body>
 </html>
