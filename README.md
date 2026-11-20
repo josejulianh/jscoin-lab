@@ -42,6 +42,7 @@ https://josejulianh.github.io/jscoin-lab/
 | 20 (Semana/Día 20) | Multi-firma educativa básica (temas avanzados) | `week20/` |
 | 21 (Semana/Día 21) | Contratos Hash Time-Locked (HTLC) educativos básicos | `week21/` |
 | 22 (Semana/Día 22) | Canales de pago educativos básicos (inspirados en Lightning) | `week22/` |
+| 23 (Semana/Día 23) | Watchtowers educativos básicos | `week23/` |
 
 ### Ejecución Node
 
@@ -68,6 +69,7 @@ cd week19 && npm init -y && npm install elliptic && node blockchain.js
 cd week20 && npm init -y && npm install elliptic && node blockchain.js
 cd week21 && npm init -y && npm install elliptic && node blockchain.js
 cd week22 && npm init -y && npm install elliptic && node blockchain.js
+cd week23 && npm init -y && npm install elliptic && node blockchain.js
 ```
 
 **Importante**: Todo es un prototipo educativo. No tiene red P2P real, consenso de producción ni seguridad de nivel producción. Cada día a las 16:00 se añade la siguiente práctica.
@@ -96,4 +98,5 @@ cd week22 && npm init -y && npm install elliptic && node blockchain.js
 - [x] Semana/Día 20: Multi-firma educativa básica (temas avanzados opcionales)
 - [x] Semana/Día 21: Contratos Hash Time-Locked (HTLC) educativos básicos
 - [x] Semana/Día 22: Canales de pago educativos básicos (inspirados en Lightning)
-- [ ] Semana/Día 23+: Más temas avanzados opcionales o fin del laboratorio
+- [x] Semana/Día 23: Watchtowers educativos básicos
+- [ ] Semana/Día 24+: Más temas avanzados opcionales o fin del laboratorio
