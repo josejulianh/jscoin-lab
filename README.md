@@ -44,6 +44,7 @@ https://josejulianh.github.io/jscoin-lab/
 | 22 (Semana/Día 22) | Canales de pago educativos básicos (inspirados en Lightning) | `week22/` |
 | 23 (Semana/Día 23) | Watchtowers educativos básicos | `week23/` |
 | 24 (Semana/Día 24) | Reorganizaciones de cadena (reorgs) y bloques huérfanos educativos | `week24/` |
+| 25 (Semana/Día 25) | Simulación educativa de ataque del 51% y detección básica | `week25/` |
 
 ### Ejecución Node
 
@@ -72,6 +73,7 @@ cd week21 && npm init -y && npm install elliptic && node blockchain.js
 cd week22 && npm init -y && npm install elliptic && node blockchain.js
 cd week23 && npm init -y && npm install elliptic && node blockchain.js
 cd week24 && npm init -y && npm install elliptic && node blockchain.js
+cd week25 && npm init -y && npm install elliptic && node blockchain.js
 ```
 
 **Importante**: Todo es un prototipo educativo. No tiene red P2P real, consenso de producción ni seguridad de nivel producción. Cada día a las 16:00 se añade la siguiente práctica.
@@ -102,4 +104,5 @@ cd week24 && npm init -y && npm install elliptic && node blockchain.js
 - [x] Semana/Día 22: Canales de pago educativos básicos (inspirados en Lightning)
 - [x] Semana/Día 23: Watchtowers educativos básicos
 - [x] Semana/Día 24: Reorganizaciones de cadena (reorgs) y bloques huérfanos educativos
-- [ ] Semana/Día 25+: Más temas avanzados opcionales o fin del laboratorio
+- [x] Semana/Día 25: Simulación educativa de ataque del 51% y detección básica
+- [ ] Semana/Día 26+: Más temas avanzados opcionales o fin del laboratorio
